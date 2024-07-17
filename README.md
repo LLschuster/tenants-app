@@ -11,16 +11,16 @@ This project was built to showcase many fullstack skills, rather than as the sim
 ## How to run the project
 
 First install all dependencies
-´´´bash
+```bash
 npm install-all
-´´´
+```
 
 Build and run the project
-´´´bash
+```bash
 npm run start
-´´´
+```
 
 Build and run the project For Windows
-´´´bash
+```bash
 npm run start-win
-´´´
+```
