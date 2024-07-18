@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 
+const totalSteps = 5
+
 type StepProps = {
   onSubmit: () => void
 }
@@ -153,7 +155,7 @@ function App() {
         {_renderCurrentStep()}
       </div>
       <footer>
-      <progress id="registration_progress" max="100" value="70">70%</progress>
+      <progress id="registration_progress" max="100" value={((currentStep + 1) * 100) / totalSteps}></progress>
       </footer>
     </main>
   );

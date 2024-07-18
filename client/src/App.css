@@ -86,3 +86,14 @@ input[type="button"] {
 fieldset {
   border-width: 0;
 }
+
+footer {
+  position: fixed;
+  bottom: 1rem;
+  width: 100%;
+}
+
+footer > progress {
+  width: 90%;
+  margin-inline: 5%;
+}
