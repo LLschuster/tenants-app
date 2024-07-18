@@ -1,0 +1,88 @@
+:root {
+ --bodyColor:#000000;
+ --paddingSelectables: clamp(0.3rem, 5vw, 1rem);
+}
+
+#main_content {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: white;
+}
+
+.card {
+  flex-grow: 1;
+  width: 1%;
+  min-width: min(30rem, 100%);
+  max-width: 24rem;
+  max-height: max(50vh, 24rem);
+  display: block;
+  text-align: center;      
+  padding: clamp(0.5rem, 2vw, 1rem);          
+  background-color: rgb(222, 217, 217); 
+  border-radius: 8px;     
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  overflow: auto;
+  color: var(--bodyColor);
+}
+
+.card > h2 {
+  font-size: 1.3rem;
+}
+
+.WelcomeContainer > input {
+  margin-top: clamp(10vh, 15vh, 30rem);
+}
+
+.personalInfoContainer > form >  fieldset {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.salaryContainer > form >  fieldset {
+  text-align: start;
+  margin-left: clamp(1rem, 25vw , 8rem);
+}
+
+.salaryContainer > form >  fieldset > label {
+  margin-left: min(0.5rem, 4vw);
+  font-size: 1.2rem;
+  line-height: 2rem;
+}
+
+.locationContainer > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.locationContainer > ul > li {
+  padding-inline: var(--paddingSelectables);
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  margin-top: 0.7rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  width: fit-content;
+}
+
+.summaryContainer > p {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1rem;
+}
+
+input[type="button"] {
+  border-radius: 1rem;
+  font-size: 1rem;
+  line-height: 1.8;
+  padding-inline: var(--paddingSelectables);
+}
+
+fieldset {
+  border-width: 0;
+}
