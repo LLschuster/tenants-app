@@ -3,8 +3,7 @@
 
 
 TODO:
-write readme file
-Organizing code
-github actions
-make better animations
-add test
+4write readme file
+2github actions and devops
+3make better animations
+1add test

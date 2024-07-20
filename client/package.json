@@ -22,7 +22,7 @@
     "start": "react-scripts start",
     "build-win": "rimraf ../server/public && set BUILD_PATH=../server/public&& react-scripts build",
     "build": "rimraf ../server/public && BUILD_PATH='../server/public' react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --detectOpenHandles",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

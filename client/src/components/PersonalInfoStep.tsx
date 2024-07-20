@@ -52,18 +52,18 @@ export const PersonalInfoStep = ({onSubmit, dispatch, errorHandler, fullname, ph
         <form action="">
           <fieldset>
           <label htmlFor="input_fullname">Enter your full name*</label>
-          <input onChange={handleInputChange} type="text" id='input_fullname' name='input_fullname' value={fullname} required />
+          <input onChange={handleInputChange} type="text" id='input_fullname' name='input_fullname' data-testid='input_fullname' value={fullname} required />
           </fieldset>
           <fieldset>
   
           <label htmlFor="input_phone">Enter your phone number*</label>
-          <input onChange={handleInputChange} type="text" id='input_phoneNumber' name='input_phoneNumber' value={phoneNumber} required />
+          <input onChange={handleInputChange} type="text" id='input_phoneNumber' data-testid='input_phoneNumber' name='input_phoneNumber' value={phoneNumber} required />
           </fieldset>
           <fieldset>
           <label htmlFor="input_email">Enter your email*</label>
-          <input onChange={handleInputChange} type="email" id='input_email' name='input_email' value={email} required />
+          <input onChange={handleInputChange} type="email" id='input_email' data-testid='input_email' name='input_email' value={email} required />
           </fieldset>
-        <input type='button' value='Submit' onClick={goToNextStep} />
+        <input id="submit_btn" type='button' value='Submit' onClick={goToNextStep} />
         </form>
       </div>
     )
