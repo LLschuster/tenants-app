@@ -32,6 +32,15 @@
   font-size: 1.3rem;
 }
 
+.WelcomeContainer,
+.locationContainer,
+.personalInfoContainer,
+.salaryContainer,
+.summaryContainer {
+  animation-duration: 3s;
+  animation-name: appear;
+}
+
 .WelcomeContainer > input {
   margin-top: clamp(10vh, 15vh, 30rem);
 }
@@ -70,6 +79,10 @@
   width: fit-content;
 }
 
+.locationContainer li[data-checked="1"] {
+  background-color: rgb(199, 194, 194)
+}
+
 .summaryContainer > p {
   display: flex;
   justify-content: space-between;
@@ -81,6 +94,9 @@ input[type="button"] {
   font-size: 1rem;
   line-height: 1.8;
   padding-inline: var(--paddingSelectables);
+
+  animation-duration: 1.5s;
+  animation-name: rotate;
 }
 
 fieldset {
@@ -96,4 +112,26 @@ footer {
 footer > progress {
   width: 90%;
   margin-inline: 5%;
+}
+
+@keyframes appear {
+  from {
+    display: none;
+    opacity: 0;
+  }
+
+  to {
+    display: block;
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
