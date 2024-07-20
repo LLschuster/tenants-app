@@ -1,5 +1,6 @@
 :root {
  --bodyColor:#000000;
+ --cardColor: rgb(236, 217, 217);
  --paddingSelectables: clamp(0.3rem, 5vw, 1rem);
 }
 
@@ -21,7 +22,7 @@
   display: block;
   text-align: center;      
   padding: clamp(0.5rem, 2vw, 1rem);          
-  background-color: rgb(222, 217, 217); 
+  background-color: var(--cardColor); 
   border-radius: 8px;     
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   overflow: auto;
@@ -77,6 +78,7 @@
   background-color: white;
   border-radius: 0.5rem;
   width: fit-content;
+  cursor: pointer;
 }
 
 .locationContainer li[data-checked="1"] {
@@ -94,6 +96,7 @@ input[type="button"] {
   font-size: 1rem;
   line-height: 1.8;
   padding-inline: var(--paddingSelectables);
+  cursor: pointer;
 
   animation-duration: 1.5s;
   animation-name: rotate;
