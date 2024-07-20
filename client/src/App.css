@@ -1,4 +1,5 @@
 :root {
+ --appBackgroundColor: white;
  --bodyColor:#000000;
  --cardColor: rgb(240, 236, 236);
  --dangerColor: #a51919;
@@ -11,7 +12,7 @@
     align-items: center;
     flex-direction: column;
     height: 100vh;
-    background-color: white;
+    background-color: var(--appBackgroundColor);
 }
 
 .card {

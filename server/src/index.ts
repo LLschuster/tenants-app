@@ -4,8 +4,6 @@ import bodyParser from 'body-parser';
 import cluster from 'cluster'
 import os from 'os'
 
-
-
 type AppartmentInfo = {
   imageUrl: string
   name: string
@@ -67,6 +65,7 @@ if (cluster.isPrimary){
     })
     
     res.setHeader("content-type", "Application/json")
+    res.setHeader("Access-Control-Allow-Origin", "*")
     res.status(200)
     res.json(appartmentResult)
   })
