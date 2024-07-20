@@ -13,6 +13,11 @@ type SalaryRange =  "range_1000" |
                     "range_4000" |
                     "range_4000+"|
                     ""
+type AppartmentInfo = {
+  imageUrl: string
+  name: string
+  price: string
+}
 
 type AppState = {
   fullName: string
@@ -20,6 +25,7 @@ type AppState = {
   phoneNumber: string
   location: string
   salaryRange: string
+  apartmentResults: AppartmentInfo[]
 }
 
 type Action =
@@ -27,14 +33,17 @@ type Action =
   | { type: 'SET_EMAIL'; payload: string }
   | { type: 'SET_PHONENUMBER'; payload: string }
   | { type: 'SET_LOCATION'; payload: string }
-  | { type: 'SET_SALARYRANGE'; payload: string };
+  | { type: 'SET_SALARYRANGE'; payload: string }
+  | { type: 'SET_APPARTMENTS'; payload: AppartmentInfo[] }
+  | { type: 'RESET'; payload?: null };
 
 const initialState: AppState = {
   fullName: '',
   email: '',
   phoneNumber: '',
   location: 'Berlin',
-  salaryRange: ''
+  salaryRange: '',
+  apartmentResults: []
 };
 
 const appStateStorageKey = 'appState'
@@ -53,7 +62,7 @@ const appStateInit = () => {
 }
 
 const appReducer = (state: AppState, action: Action) => {
-  const newState = {...state}
+  let newState = {...state}
 
   switch (action.type) {
     case 'SET_FULLNAME':
@@ -65,12 +74,18 @@ const appReducer = (state: AppState, action: Action) => {
     case 'SET_PHONENUMBER':
       newState.phoneNumber = action.payload;
       break
-      case 'SET_LOCATION':
-        newState.location = action.payload;
-        break
-        case 'SET_SALARYRANGE':
-          newState.salaryRange = action.payload;
-          break
+    case 'SET_LOCATION':
+      newState.location = action.payload;
+      break
+    case 'SET_SALARYRANGE':
+      newState.salaryRange = action.payload;
+      break
+    case 'RESET':
+      newState = initialState;
+      break
+    case 'SET_APPARTMENTS':
+      newState.apartmentResults = action.payload;
+      break
     default:
       return state;
   }
@@ -244,8 +259,9 @@ const LocationInfoStep = ({onSubmit, location, dispatch}: LOProps) => {
 
 type SUProps = StepProps & {
   state: AppState
+  onReset: () => void
 }
-const SummaryStep = ({onSubmit, state}: SUProps) => {
+const SummaryStep = ({onSubmit, state, onReset}: SUProps) => {
   const goToNextStep = () => {
     onSubmit()
   }
@@ -296,8 +312,33 @@ const SummaryStep = ({onSubmit, state}: SUProps) => {
 </p>
 
       <input type='button' value='Submit' onClick={goToNextStep}/>
+      <input type="button" value="reset registration" onClick={onReset} />
     </div>
   )
+}
+
+type RentProps = {
+  appartmentList: AppartmentInfo[]
+  onReset: () => void
+}
+
+const RentView = ({appartmentList, onReset}: RentProps) => {
+  return (<div>
+  <ul>
+  {
+    appartmentList.map(result => {
+      return (
+        <li>
+          <img src={result.imageUrl} alt="Apartment" />
+          <p>{result.name}</p>
+          <small>{result.price}</small>
+        </li>
+      )
+    })
+  }
+  </ul>
+  <input type="button" value="reset registration" onClick={onReset} />
+</div>)
 }
 
 const initialToastState = {
@@ -314,6 +355,53 @@ function App() {
     setCurrentStep(prev => prev + 1)
   }, [setCurrentStep])
 
+  const handleOnReset = React.useCallback(() => {
+    dispatch({type: "RESET"})
+    setCurrentStep(0)
+}, [dispatch, setCurrentStep])
+
+const handleErrorMessage = (message: string) => {
+  _setToastState({
+  text: message,
+  open: true
+})
+setTimeout(() => {
+  _setToastState(initialToastState)
+}, 3000);
+}
+
+const handleSubmitRegistration = async () => {
+  const requestBody = JSON.stringify({
+    fullname: state.fullName,
+    email: state.email,
+    salaryRange: state.salaryRange,
+    phoneNumber: state.phoneNumber,
+    location: state.location
+  })
+
+  const result = await fetch('http://localhost:3000/v1/appartments', {
+    method: 'POST',
+    headers: {
+      'content-type': 'Application/json'
+    },
+    body: requestBody
+  })
+
+  
+  if (result.status !== 200){
+    handleErrorMessage("Could not fetch appartments")
+    return
+  }
+  
+  const appartments = await result.json()
+  
+  console.log(result, appartments)
+  dispatch({
+    type: "SET_APPARTMENTS",
+    payload: appartments
+  })
+}
+
   const _renderCurrentStep = () => {
     switch(currentStep){
       case 0: 
@@ -325,31 +413,24 @@ function App() {
         phoneNumber={state.phoneNumber} 
         email={state.email} 
         dispatch={dispatch}
-        errorHandler={(message) => {
-          _setToastState({
-          text: message,
-          open: true
-        })
-        setTimeout(() => {
-          _setToastState(initialToastState)
-        }, 3000);
-      }}
+        errorHandler={handleErrorMessage}
         /> 
       case 2: 
         return <SalaryStep onSubmit={() => setCurrentStep(3)} salaryRange={state.salaryRange} dispatch={dispatch}/> 
       case 3: 
         return <LocationInfoStep location={state.location} dispatch={dispatch} onSubmit={increaceStep}/>
       case 4: 
-        return <SummaryStep state={state} onSubmit={() => setCurrentStep(5)}/> 
+        return <SummaryStep state={state} onSubmit={handleSubmitRegistration} onReset={handleOnReset}/> 
       default:
         return <WelcomeStep onSubmit={() => setCurrentStep(1)}/>
     }
   }
     return (
     <main id='main_content'>
-      <div className='card'>
+{   state.apartmentResults.length <= 0 ?  (<div className='card'>
         {_renderCurrentStep()}
-      </div>
+      </div>) :
+      <RentView appartmentList={state.apartmentResults} onReset={handleOnReset}/>}
       <footer>
       <progress id="registration_progress" max="100" value={((currentStep + 1) * 100) / totalSteps}></progress>
       </footer>

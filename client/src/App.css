@@ -92,6 +92,10 @@
   padding-inline: 1rem;
 }
 
+.summaryContainer input[type="button"] {
+  margin-inline: var(--paddingSelectables);
+}
+
 input[type="button"] {
   border-radius: 1rem;
   font-size: 1rem;
