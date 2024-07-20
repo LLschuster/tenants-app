@@ -79,6 +79,15 @@ const appReducer = (state: AppState, action: Action) => {
   return newState;
 };
 
+const Toast = (props: {text: string, open: boolean}) => {
+  const className = `${props.open ? 'show' : ''} toast`
+  return (
+    <div className={className}>
+      <p>{props.text}</p>
+      </div>
+  )
+}
+
 const WelcomeStep = ({onSubmit}: StepProps) => {
   const goToNextStep = () => {
     onSubmit()
@@ -95,10 +104,34 @@ type PIProps = StepProps & {
   fullname: string
   phoneNumber: string
   email: string
+
+  errorHandler: (message: string) => void
   dispatch: React.Dispatch<Action>
 }
-const PersonalInfoStep = ({onSubmit, dispatch, fullname, phoneNumber, email}: PIProps) => {
+const PersonalInfoStep = ({onSubmit, dispatch, errorHandler, fullname, phoneNumber, email}: PIProps) => {
+  const validateInputs = () => {
+    if (!fullname){
+      errorHandler("You need to provide your name")
+      return false
+    }
+
+    if (!phoneNumber){
+      errorHandler("You need to provide your phone number")
+      return false
+    }
+
+    if (!email || !RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).test(email)){
+      errorHandler("The provided email is invalid")
+      return false
+    }
+
+    return true
+  }
+  
   const goToNextStep = () => {
+    if (!validateInputs()){
+      return
+    }
     onSubmit()
   }
 
@@ -267,8 +300,14 @@ const SummaryStep = ({onSubmit, state}: SUProps) => {
   )
 }
 
+const initialToastState = {
+  text: "",
+  open: false
+}
+
 function App() {
   const [currentStep, setCurrentStep] = useState(0)
+  const [toastState, _setToastState] = useState(initialToastState)
   const [state, dispatch] = useReducer(appReducer, initialState, appStateInit);
 
   const increaceStep = React.useCallback(() => {
@@ -285,7 +324,17 @@ function App() {
         fullname={state.fullName} 
         phoneNumber={state.phoneNumber} 
         email={state.email} 
-        dispatch={dispatch}/> 
+        dispatch={dispatch}
+        errorHandler={(message) => {
+          _setToastState({
+          text: message,
+          open: true
+        })
+        setTimeout(() => {
+          _setToastState(initialToastState)
+        }, 3000);
+      }}
+        /> 
       case 2: 
         return <SalaryStep onSubmit={() => setCurrentStep(3)} salaryRange={state.salaryRange} dispatch={dispatch}/> 
       case 3: 
@@ -304,6 +353,7 @@ function App() {
       <footer>
       <progress id="registration_progress" max="100" value={((currentStep + 1) * 100) / totalSteps}></progress>
       </footer>
+      <Toast text={toastState.text} open={toastState.open}/>
     </main>
   );
 }

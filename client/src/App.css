@@ -1,6 +1,7 @@
 :root {
  --bodyColor:#000000;
- --cardColor: rgb(236, 217, 217);
+ --cardColor: rgb(240, 236, 236);
+ --dangerColor: #a51919;
  --paddingSelectables: clamp(0.3rem, 5vw, 1rem);
 }
 
@@ -137,4 +138,25 @@ footer > progress {
   to {
     transform: rotate(360deg);
   }
+}
+
+.toast {
+  position: fixed;
+  top: 2.5vh;
+  right: 2.5vw;
+  width: 40vw;
+  z-index: 1000;
+  background-color: var(--dangerColor);
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
 }
