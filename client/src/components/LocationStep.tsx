@@ -7,12 +7,33 @@ type LOProps = StepProps & {
   }
   
 export const LocationInfoStep = ({onSubmit, location, dispatch}: LOProps) => {
-    const goToNextStep = (newLocation: string) => {
-      dispatch({
-        type: "SET_LOCATION",
-        payload: newLocation
-      })
-      onSubmit()
+    const handleSelectLocation = (newLocation: string) => {
+      const allSelectables = document.getElementsByTagName('li');
+      let selectedElem: HTMLLIElement;
+
+      const handleSubmit = () => {
+        dispatch({
+          type: "SET_LOCATION",
+          payload: newLocation
+        })
+        selectedElem.removeEventListener("animationend", handleSubmit)
+        onSubmit()
+      }
+
+      for (let i = 0; i < allSelectables.length; i++){
+        const elem = allSelectables.item(i)
+        if (!elem){
+          continue
+        }
+
+        if (elem.id === newLocation){
+          selectedElem = elem;
+          selectedElem.addEventListener("animationend", handleSubmit)
+          selectedElem.className += "translateAndScale"
+          continue
+        }
+        elem.className = "hidden"
+      }
     }
 
     return (
@@ -22,7 +43,7 @@ export const LocationInfoStep = ({onSubmit, location, dispatch}: LOProps) => {
           {
             locations.map(loc => {
               return (
-                <li key={loc}  id={loc} data-checked={location === loc ? '1' : '0'} onClick={() => goToNextStep(loc)}>{loc}</li>
+                <li key={loc}  id={loc} data-checked={location === loc ? '1' : '0'} onClick={() => handleSelectLocation(loc)}>{loc}</li>
               )
             })
           }

@@ -81,10 +81,20 @@
   border-radius: 0.5rem;
   width: fit-content;
   cursor: pointer;
+
 }
 
 .locationContainer li[data-checked="1"] {
-  background-color: rgb(199, 194, 194)
+  background-color: rgb(199, 194, 194);
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.translateAndScale {
+  animation-name: translateAndScale;
+  animation-duration: 1.5s;
 }
 
 .summaryContainer > p {
@@ -97,6 +107,14 @@
   margin-inline: var(--paddingSelectables);
 }
 
+.RentView ul {
+  list-style: none;
+}
+
+.RentView li {
+  margin-top: 1.5rem;
+}
+
 input[type="button"] {
   border-radius: 1rem;
   font-size: 1rem;
@@ -106,6 +124,13 @@ input[type="button"] {
 
   animation-duration: 1.5s;
   animation-name: rotate;
+}
+
+.locationContainer input[type="button"],
+.summaryContainer input[type="button"],
+.personalInfoContainer input[type="button"],
+.salaryContainer input[type="button"] {
+  margin-top: 0.5rem;
 }
 
 fieldset {
@@ -142,6 +167,16 @@ footer > progress {
 
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes translateAndScale {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(0, 5rem) scale(2);
   }
 }
 

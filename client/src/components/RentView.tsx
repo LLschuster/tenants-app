@@ -6,15 +6,15 @@ type Props = {
   }
   
 export const RentView = ({appartmentList, onReset}: Props) => {
-    return (<div>
+    return (<div className="RentView">
     <ul>
     {
       appartmentList.map(result => {
         return (
-          <li>
-            <img src={result.imageUrl} alt="Apartment" />
+          <li key={result.name}>
+            <img height={250} width={250} src={result.imageUrl} alt="Apartment" />
             <p>{result.name}</p>
-            <small>{result.price}</small>
+            <small>{result.price}$ Euro</small>
           </li>
         )
       })
