@@ -1,0 +1,25 @@
+name: client app
+
+on:
+  push:
+    paths:
+      - "client/**"
+
+jobs:
+  validate:
+    name: Validate types and lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.15.1
+      
+      - name: install dependencies
+        run: npm run i-client
+
+      - name: validate types
+        run: npm run type-check --prefix client
+
+      - name: run tests
+        run: npm run test-client 
