@@ -60,3 +60,10 @@ Is a express app deployed as a cluster that serves the client build and provides
 ### github folder
 
 It's another folder that contains information about github workflows that validates the code and runs the tests.
+
+
+## What can be improved
+
+- Make better animations
+- The design can be more polished
+- add persistent to the server to the database to allow for booking appartments and remembering users.
