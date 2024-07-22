@@ -13,6 +13,8 @@ This project was built to showcase many fullstack skills, rather than as the sim
 The project can be run manually or using docker,
 first make sure you are on the root project folder. The projects runs on port 3000, so make sure no other processes are using it.
 
+After starting the app by using one of the approaches listed below, you will be able to access the app under http://localhost:3000
+
 ### Manual approach
 
 First install all dependencies
